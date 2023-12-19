@@ -1,9 +1,13 @@
 import pandas as pd
 import re
 
-def extract_phone_numbers(file_path, column_name):
-    # Read the CSV file
-    df = pd.read_csv(file_path)
+def extract_phone_numbers(file_path, column_name, encoding='utf-8'):
+    try:
+        # Try reading the CSV file with the specified encoding
+        df = pd.read_csv(file_path, encoding=encoding)
+    except UnicodeDecodeError:
+        # If there's a decoding error, try a different encoding
+        df = pd.read_csv(file_path, encoding='ISO-8859-1')
 
     # Regular expression for phone numbers
     phone_number_pattern = r'(\+?353\d{1,2}\s?\d{1,3}\s?\d{1,3}\s?\d{1,3}|\b08\d{1}\s?\d{1,3}\s?\d{1,3}\s?\d{1,3})'
@@ -27,6 +31,7 @@ phone_numbers = extract_phone_numbers(file_path, column_name)
 # Print extracted phone numbers
 for number in phone_numbers:
     print(number)
+
 
 """Read the CSV file using Pandas.
 Iterate through the rows of the specified column (you need to provide the column name).
