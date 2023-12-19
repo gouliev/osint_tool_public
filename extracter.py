@@ -23,14 +23,22 @@ def extract_phone_numbers(file_path, column_name, encoding='utf-8'):
 
     return extracted_numbers
 
+def save_to_csv(phone_numbers, output_file):
+    # Convert the list of phone numbers to a DataFrame
+    phone_numbers_df = pd.DataFrame(phone_numbers, columns=['Phone Number'])
+
+    # Save the DataFrame to a CSV file
+    phone_numbers_df.to_csv(output_file, index=False)
+
 # Usage
 file_path = 'path_to_your_file.csv'  # Replace with your CSV file path
 column_name = 'your_column_name'     # Replace with the name of your column
-phone_numbers = extract_phone_numbers(file_path, column_name)
+output_file = 'extracted_phone_numbers.csv'  # Name of the output CSV file
 
-# Print extracted phone numbers
-for number in phone_numbers:
-    print(number)
+phone_numbers = extract_phone_numbers(file_path, column_name)
+save_to_csv(phone_numbers, output_file)
+
+print(f'Extracted phone numbers saved to {output_file}')
 
 
 """Read the CSV file using Pandas.
